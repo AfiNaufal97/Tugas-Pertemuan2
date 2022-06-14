@@ -7,7 +7,6 @@ import LIstItem from "./components/LIstItem";
 const App = () => {
   const [taskList, setTaskList] = useState({
     data: [],
-    new:""
   });
   const [isBool, setIsBool] = useState(false);
   const [newTaskValue, setNewTaskValue] = useState("");
@@ -19,15 +18,15 @@ const App = () => {
     }
     if (isBool) {
       let dataUpdate = newTaskValue;
-      let dataNew = []
-      for(let i= 0; i< taskList.data.length; i++){
-        if(i === indexVal){
-          dataNew.push(dataUpdate)
-        }else{
-          dataNew.push(taskList.data[i])
+      let dataNew = [];
+      for (let i = 0; i < taskList.data.length; i++) {
+        if (i === indexVal) {
+          dataNew.push(dataUpdate);
+        } else {
+          dataNew.push(taskList.data[i]);
         }
       }
-      setTaskList({data:dataNew})
+      setTaskList({ data: dataNew });
       setIsBool(false);
     } else {
       const newData = taskList.data;
@@ -39,12 +38,18 @@ const App = () => {
 
   const actionUpdateTask = (event) => {
     setIsBool(true);
-    setIndexVal(event)
+    setIndexVal(event);
     setNewTaskValue(taskList.data[event]);
   };
 
   const actionDeleteTask = (event) => {
-    setTaskList(taskList.data.slice(taskList.data.indexOf(event, 1)))
+    let dataNew = [];
+    for (let i = 0; i < taskList.data.length; i++) {
+      if (i !== indexVal) {
+        dataNew.push(taskList.data[i]);
+      }
+      setTaskList({ data: dataNew });
+    }
   };
 
   return (
@@ -62,7 +67,11 @@ const App = () => {
       <div>
         <ul>
           {taskList.data.map((item, index) => (
-            <LIstItem name={item} update={()=>actionUpdateTask(index)}  delete={()=>actionDeleteTask(index)} />
+            <LIstItem
+              name={item}
+              update={() => actionUpdateTask(index)}
+              delete={() => actionDeleteTask(index)}
+            />
           ))}
         </ul>
       </div>
